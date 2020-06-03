@@ -1,60 +1,11 @@
-var path = require('path');
-const fs = require('fs');
-
 const express = require('express');
 const app = express();
-//const dbPath = "C:\\Development\\Bootcamp\\GitHub Repo\\note-taker\\db\\db.json";
-const dbPath = path.join(__dirname, "db", "db.json");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+require('./routes/api-routes')(app);
+require('./routes/html-routes')(app);
+
 app.listen(process.env.PORT || 5500);
 console.log("connected on 5500");
-
-// GET
-app.get('/notes', function (req, res) {
-    res.sendFile(path.join(__dirname, 'public', 'notes.html'))
-});
-app.get('/api/notes', function (req, res) {
-    res.sendFile(dbPath);
-});
-
-// POST
-app.post('/api/notes', function (req, res) {
-    fs.readFile(dbPath, "utf8", (error, data) => {
-        if (error) {
-            console.log('error');
-        } else {
-            const db = JSON.parse(data);
-            // Find the greatest value
-            if (!req.body.id) {
-                let currentID = 0;
-                if(db.length === 1){
-                    currentID = db[0].id;
-                } else if (db.length > 1) {
-                    currentID = db.reduce((accumulator, currentValue) => {
-                        if (accumulator.id > currentValue.id) {
-                            return accumulator.id;
-                        }
-                        return currentValue.id;
-                    });
-                }
-                req.body.id = currentID + 1;
-            }
-            db.push(req.body);
-            fs.writeFile(dbPath, JSON.stringify(db), () => { res.sendStatus(201) })
-        }
-    })
-})
-// DELETE
-app.delete('/api/notes/:id', function (req, res) {
-    fs.readFile(dbPath, "utf8", (error, data) => {
-        if (error) {
-            console.log('error');
-        } else {
-            const db = JSON.parse(data).filter(note => note.id !== Number(req.params.id));
-            fs.writeFile(dbPath, JSON.stringify(db), () => { res.sendStatus(200) })
-        }
-    })
-})
