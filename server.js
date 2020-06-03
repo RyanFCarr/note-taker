@@ -1,15 +1,15 @@
 var path = require('path');
-const bodyParser = require('body-parser');
 const fs = require('fs');
 
 const express = require('express');
 const app = express();
-const dbPath = "C:\\Development\\Bootcamp\\GitHub Repo\\note-taker\\db\\db.json";
+//const dbPath = "C:\\Development\\Bootcamp\\GitHub Repo\\note-taker\\db\\db.json";
+const dbPath = path.join(__dirname, "db", "db.json");
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-app.listen(5500);
+app.listen(process.env.PORT || 5500);
 console.log("connected on 5500");
 
 // GET
