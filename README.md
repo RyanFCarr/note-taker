@@ -1,6 +1,6 @@
 ![GitHub](https://img.shields.io/github/license/RyanFCarr/note-taker)
 
-[![Heroku](https://stormy-waters-05197.herokuapp.com/)](https://img.shields.io/badge/heroku-See%20it%20live!-blueviolet)
+[![Heroku](https://img.shields.io/badge/heroku-See%20it%20live!-blueviolet)](https://stormy-waters-05197.herokuapp.com/)
 
 # Note-Taker
 
